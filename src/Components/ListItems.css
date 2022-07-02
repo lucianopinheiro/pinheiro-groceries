@@ -1,0 +1,35 @@
+ul {
+  padding: 0;
+}
+li {
+  list-style: none;
+  padding: 5px;
+  display: flex;
+}
+li:hover {
+  background-color: grey;
+}
+.listControls--qty {
+  display: inline-block;
+  text-align: right;
+  width: 20px;
+  margin: auto 2px;
+  flex: 0 0 20px;
+}
+.listControls {
+  display: inline-block;
+  width: 50px;
+  flex: 0 0 50px;
+}
+.listControls button {
+  border: 0;
+  margin: 3px;
+}
+li.selected {
+  background-color: mediumaquamarine;
+  color: aliceblue;
+}
+.listLabel {
+  margin: auto;
+  flex: 10 0 50px;
+}
