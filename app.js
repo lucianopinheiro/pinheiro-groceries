@@ -1,3 +1,6 @@
+const { initialItems, createItem, editItem } = require("./routes/items.js");
+
+const items = initialItems;
 const express = require("express");
 const app = express();
 
@@ -11,11 +14,11 @@ if (process.env.NODE_ENV === "production" || true) {
   // });
 }
 
-app.get("/api", function (req, res) {
-  res.send("Hello World");
-});
+app.post("/api/v1/items", createItem); // add item
+app.get("/api/v1/items", items); // get all items
+app.patch("/api/v1/items/:item/:quantity", editItem); // edit quantity
 
 app.listen(port, (err) => {
   if (err) return console.log(err);
-  console.log("server runung at port ", port);
+  console.log("server runing at port ", port);
 });
