@@ -1,23 +1,36 @@
-const initialItems = function (req, res) {
-  const initialItems = [
-    { name: "Carne", quantity: 1, icon: "ABC", id: 1 },
-    { name: "Pão", quantity: 1, icon: "ABC", id: 2 },
-    { name: "Ovo", quantity: 1, icon: "ABC", id: 3 },
-    { name: "Macarrão", quantity: 0, icon: "ABC", id: 4 },
-    { name: "Peixe", quantity: 0, icon: "ABC", id: 5 },
-    { name: "Melão", quantity: 1, icon: "ABC", id: 6 },
-    { name: "Chocolate", quantity: 2, icon: "ABC", id: 7 },
-    { name: "Manteiga", quantity: 1, icon: "ABC", id: 8 },
-  ].sort((a, b) => (a.name > b.name ? 1 : -1));
+const { connect } = require("../db");
 
+async function initialItems(req, res) {
+  const client = connect();
+
+  const resQ = await client.query("SELECT * FROM public.items");
+  const initialItems = await resQ.rows.map((row) => {
+    return { name: row.name, quantity: row.quantity, icon: "ABCDEF", id: row.id };
+  });
   res.json(initialItems);
-};
+}
 
-const createItem = function (req, res) {
-  console.log(req);
-  res.json(req.params);
-  //res.json({ status: "Ok", message: "Item Created", req: req.params.name, msg: "Luciano" });
-};
+async function createItem(req, res) {
+  console.log(req.body);
+
+  if (req.body.name) {
+    const client = await connect();
+    const sql = `INSERT INTO public.items (name, quantity) VALUES( '${req.body.name}',	1);`;
+    await client.query(sql, (err, res) => {
+      console.log("inserted");
+      if (err) throw err;
+    });
+
+    await client.query(`COMMIT;`, (err, res) => {
+      console.log("commited");
+      if (err) throw err;
+    });
+
+    res.json({ status: "Ok", message: "Item Created", name: req.body.name });
+  } else {
+    res.json({ status: "Error", message: "Item NOT Created", name: req.body.name });
+  }
+}
 
 const editItem = function (req, res) {
   //res.send({ name: req.name, quantity: req.quantity });
