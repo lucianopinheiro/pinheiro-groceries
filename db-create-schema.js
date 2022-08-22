@@ -1,9 +1,9 @@
-require("dotenv").config();
+const envs = require("./envs.js");
 
 const { Client } = require("pg");
 
 const client = new Client({
-  connectionString: process.env.DATABASE_URL,
+  connectionString: envs.DATABASE_URL,
   ssl: {
     rejectUnauthorized: false,
   },

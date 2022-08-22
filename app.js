@@ -1,4 +1,5 @@
-const { initialItems, createItem, editItem } = require("./routes/items.js");
+const envs = require("./envs.js");
+const { initialItems, createItem, editItem } = require("./controllers/items.js");
 
 const items = initialItems;
 const express = require("express");
@@ -7,8 +8,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// const path = require("path");
-const port = process.env.PORT || 5000;
+const port = envs.PORT || 5000;
 
 if (process.env.NODE_ENV === "production" || true) {
   app.use(express.static("build"));
