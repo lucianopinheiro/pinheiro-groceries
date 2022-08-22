@@ -3,10 +3,18 @@ const { initialItems, createItem, editItem } = require("./controllers/items.js")
 
 const items = initialItems;
 const express = require("express");
+var cors = require("cors");
 const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(
+  cors({
+    origin: "*",
+    methods: ["GET", "POST"],
+    credentials: true, // header Access-Control-Allow-Credentials
+  })
+);
 
 const port = envs.PORT || 5000;
 
