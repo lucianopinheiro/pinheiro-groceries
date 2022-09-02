@@ -9,7 +9,7 @@ function Body() {
   const [filteredItems, setFilteredItems] = useState(initialItems);
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/v1/items/")
+    fetch("https://pinheiro-groceries.herokuapp.com/api/v1/items/")
       .then((response) => {
         return response.json();
       })

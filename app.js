@@ -18,13 +18,13 @@ app.use(
 
 const port = envs.PORT || 5000;
 
-if (process.env.NODE_ENV === "production" || true) {
-  app.use(express.static("build"));
-}
-
 app.post("/api/v1/items", createItem); // add item
 app.get("/api/v1/items", items); // get all items
 app.patch("/api/v1/items/:item/:quantity", editItem); // edit quantity
+
+if (process.env.NODE_ENV === "production" || true) {
+  app.use(express.static("build"));
+}
 
 app.listen(port, (err) => {
   if (err) return console.log(err);
