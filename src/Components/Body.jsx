@@ -1,15 +1,17 @@
 import ListItems from "./ListItems";
 import "./Body.css";
 import { useState, useEffect } from "react";
+import axios from "axios";
 
 function Body() {
   let initialItems = [];
+  const URL = "https://pinheiro-groceries.herokuapp.com";
 
   const [items, setItems] = useState(initialItems);
   const [filteredItems, setFilteredItems] = useState(initialItems);
 
   useEffect(() => {
-    fetch("https://pinheiro-groceries.herokuapp.com/api/v1/items/")
+    fetch(URL + "/api/v1/items/")
       .then((response) => {
         return response.json();
       })
@@ -22,12 +24,15 @@ function Body() {
 
   const handleItems = (item, operation) => {
     if (operation === "add") {
+      //api/v1/items/:item/:quantity
       item.quantity += 1;
+      axios.patch(URL + `/api/v1/items/${item.name}/${item.quantity}`);
     } else if (operation === "del") {
       if (item.quantity === 1) {
         item.selected = undefined;
       }
       item.quantity -= 1;
+      axios.patch(URL + `/api/v1/items/${item.name}/${item.quantity}`);
     } else if (operation === "sel") {
       item.selected = item.selected === undefined ? "selected" : undefined;
     }
@@ -52,7 +57,7 @@ function Body() {
       return item.id >= value ? item.id + 1 : value;
     }, 0);
     const newItem = { name: e.target.previousSibling.value, quantity: 1, icon: "ABC", id: id };
-    //console.log(e.target.previousSibling.value);
+    axios.post(URL + "/api/v1/items", newItem);
     handleItems(newItem, "new");
     e.target.previousSibling.value = "";
   };
