@@ -32,9 +32,21 @@ async function createItem(req, res) {
   }
 }
 
-const editItem = function (req, res) {
+async function editItem(req, res) {
+  const client = await connect();
+  const sql = `UPDATE public.items SET quantity = ${req.params.quantity} WHERE name = '${req.params.item}';`;
+  await client.query(sql, (err, res) => {
+    console.log("updated");
+    if (err) throw err;
+  });
+
+  await client.query(`COMMIT;`, (err, res) => {
+    console.log("commited");
+    if (err) throw err;
+  });
+
   //res.send({ name: req.name, quantity: req.quantity });
   res.json({ item: req.params.item, quantity: req.params.quantity });
-};
+}
 
 module.exports = { initialItems, createItem, editItem };
