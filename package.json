@@ -1,7 +1,10 @@
 {
-  "name": "home-groceries",
-  "version": "0.1.0",
-  "homepage": ".",
+  "name": "Home Groceries",
+  "version": "0.2.0",
+  "main": "app.js",
+  "engines": {
+    "node": "18.x"
+  },
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.4",
@@ -18,7 +21,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "node app.js",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
